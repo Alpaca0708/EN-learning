@@ -31,3 +31,109 @@ body {
     text-wrap: balance;
   }
 }
+
+.container {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.header {
+  background: #282c34;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.header nav a {
+  margin-left: 1.5rem;
+  color: white;
+  text-decoration: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: url('/images/hero-bg.jpg') no-repeat center center/cover;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.hero button {
+  margin-top: 2rem;
+  padding: 0.75rem 2rem;
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.features {
+  padding: 3rem 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.features h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.featureList {
+  display: flex;
+  justify-content: space-around;
+}
+
+.featureItem {
+  width: 30%;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.videoSection {
+  padding: 4rem 2rem;
+  background-color: #fff;
+  text-align: center;
+}
+
+.videoPlayer {
+  display: inline-block;
+  width: 80%;
+}
+
+.subtitles {
+  margin-top: 1rem;
+  background: #000;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.footer {
+  background: #282c34;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+.footer a {
+  color: #61dafb;
+  text-decoration: none;
+  margin: 0 1rem;
+}
+
