@@ -126,7 +126,7 @@ export default function Home() {
       </section>
 
       <footer className="bg-gray-800 text-white p-4 text-center">
-        <p>© 2024 copy right</p>
+        <p>© 2024 copyright</p>
         <div className="space-x-4">
           {/* <a href="#" className="hover:underline">隱私政策</a>
           <a href="#" className="hover:underline">使用條款</a>
