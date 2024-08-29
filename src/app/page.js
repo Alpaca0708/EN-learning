@@ -46,7 +46,7 @@ export default function Home() {
       try {
         const response = await fetch(`/api/get-sign-url?fileName=3`);
         const data = await response.json();
-        console.log('data', data);
+        // console.log('data', data);
         setVideoUrl(data.videoUrl);
         const subtitleResponse = await fetch(data.subtitleUrl);
         const subtitleText = await subtitleResponse.text();
