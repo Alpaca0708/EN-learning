@@ -35,32 +35,73 @@ const storage = new Storage({
 //     res.status(500).json({ error: 'Failed to generate signed URL' });
 //   }
 // }
+// export async function GET(req) {
+//   const { searchParams } = new URL(req.url);
+//   const fileName = searchParams.get('fileName');
+
+//   const options = {
+//     version: 'v4',
+//     action: 'read',
+//     expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+//   };
+
+//   const [videoUrl] = await storage
+//     .bucket('en-learning-project')
+//     .file(`breaking_bad/Season_1/Episode_2/${fileName}.mp4`)
+//     .getSignedUrl(options);
+
+//   const [subtitleUrl] = await storage
+//     .bucket('en-learning-project')
+//     .file(`breaking_bad/Season_1/Episode_2/${fileName}.txt`)
+//     .getSignedUrl(options);
+
+//   // console.log('Generated signed URL:', subtitleUrl);
+
+//   // return new Response(JSON.stringify({ url }), { status: 200 });
+
+//   return new Response(JSON.stringify({ videoUrl, subtitleUrl }), { status: 200 });
+
+// }
+
+
 export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const fileName = searchParams.get('fileName');
+  try {
+    const { searchParams } = new URL(req.url);
+    const season = searchParams.get('season');
+    const episode = searchParams.get('episode');
+    const fileName = searchParams.get('fileName');
 
-  const options = {
-    version: 'v4',
-    action: 'read',
-    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-  };
+    if (!season || !episode || !fileName) {
+      return new Response(JSON.stringify({ error: 'Missing required parameters' }), { status: 400 });
+    }
 
-  const [videoUrl] = await storage
-    .bucket('en-learning-project')
-    .file(`breaking_bad/Season_1/Episode_2/${fileName}.mp4`)
-    .getSignedUrl(options);
+    const bucketName = 'en-learning-project';
+    const basePath = `breaking_bad/${season}/${episode}/`;
 
-  const [subtitleUrl] = await storage
-    .bucket('en-learning-project')
-    .file(`breaking_bad/Season_1/Episode_2/${fileName}.txt`)
-    .getSignedUrl(options);
+    const options = {
+      version: 'v4',
+      action: 'read',
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    };
 
-  // console.log('Generated signed URL:', subtitleUrl);
+    // 取得影片的已簽名 URL
+    const [videoUrl] = await storage
+      .bucket(bucketName)
+      .file(`${basePath}${fileName}.mp4`)
+      .getSignedUrl(options);
 
-  // return new Response(JSON.stringify({ url }), { status: 200 });
+    // 取得字幕的已簽名 URL
+    const [subtitleUrl] = await storage
+      .bucket(bucketName)
+      .file(`${basePath}${fileName}.txt`)
+      .getSignedUrl(options);
 
-  return new Response(JSON.stringify({ videoUrl, subtitleUrl }), { status: 200 });
-
+    // 回傳已簽名的 URL
+    return new Response(JSON.stringify({ videoUrl, subtitleUrl }), { status: 200 });
+  } catch (error) {
+    console.error('Error generating signed URLs:', error);
+    return new Response(JSON.stringify({ error: 'Failed to generate signed URLs' }), { status: 500 });
+  }
 }
 
 

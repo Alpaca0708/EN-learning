@@ -2,6 +2,11 @@
 import Image from "next/image";
 import './globals.css';
 import { useEffect, useState } from "react";
+import { PlayCircle, BookOpen, MessageCircle, CheckCircle } from "lucide-react"
+import Link from 'next/link';
+// import VideoCard from '@/app/components/VideoCard';
+
+
 
 export default function Home() {
 
@@ -9,37 +14,6 @@ export default function Home() {
   const [subtitleText, setSubtitleText] = useState('');
   const [showSubtitles, setShowSubtitles] = useState(false);
 
-
-
-  // useEffect(() => {
-  //   async function fetchSignedUrl() {
-  //     const response = await fetch('/api/generate-sign-url');
-  //     const data = await response.json();
-  //     setSignedUrl(data.url);
-  //   }
-
-  //   fetchSignedUrl();
-  // }, []);
-
-  // useEffect(() => {
-  //   async function fetchSignedUrls() {
-  //     try {
-  //       const videoResponse = await fetch(`/api/get-sign-url?fileName=breaking_bad/Season_1/Episode_1/1.mp4`);
-  //       const videoData = await videoResponse.json();
-  //       // console.log('videoData', videoData);
-  //       setVideoUrl(videoData.url);
-
-  //       const subtitleResponse = await fetch(`/api/get-sign-url?fileName=breaking_bad/Season_1/Episode_1/1.txt`);
-  //       const subtitleData = await subtitleResponse.json();
-  //       console.log('subtitleData', subtitleData);
-  //       setSubtitleUrl(subtitleData.url);
-  //     } catch (error) {
-  //       console.error('Error fetching signed URLs:', error);
-  //     }
-  //   }
-
-  //   fetchSignedUrls();
-  // }, []);
 
   useEffect(() => {
     async function fetchSignedUrls() {
@@ -67,72 +41,130 @@ export default function Home() {
 
 
   return (
-    <div>
 
-      <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-        <div className="text-xl font-bold">Enhance Listening</div>
-        <nav className="space-x-4">
-          <a href="#" className="hover:underline">Home</a>
-          <a href="#" className="hover:underline">Features</a>
-          <a href="#" className="hover:underline">Contact</a>
-          <a href="#" className="hover:underline">Sign In</a>
+    <div className="flex flex-col min-h-screen">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link className="flex items-center justify-center w-16 h-16" href="#">
+          <img src="logo-Photoroom.png" alt='logo' className=" flex items-center justify-center" />
+          {/* <BookOpen className="h-6 w-6" /> */}
+          {/* <span className="sr-only">TeleLingua</span> */}
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-lg font-medium hover:underline underline-offset-4" href="#">
+            Leaderboard
+          </Link>
+          <Link className="text-lg font-medium hover:underline underline-offset-4" href="./video">
+            Video
+          </Link>
+          <Link className="text-lg font-medium hover:underline underline-offset-4" href="#">
+            About
+          </Link>
+          <Link className="text-lg font-medium hover:underline underline-offset-4" href="#">
+            Contact
+          </Link>
         </nav>
       </header>
-
-      <main className="text-center py-16 bg-cover bg-center" style={{ backgroundImage: "url('https://images.pexels.com/photos/17485743/pexels-photo-17485743.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}>
-        <h1 className="text-4xl font-bold text-white">Improvement your English listening</h1>
-        <p className="text-xl text-gray-200 mt-4">Breaking Bad Series: Shortcuts to Enhance Your Listening Skills </p>
-        <button className="mt-8 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">開始學習</button>
-      </main>
-
-      {/* <section className="py-16 bg-gray-100 text-center">
-        <h2 className="text-3xl font-bold mb-8">我們的特色</h2>
-        <div className="flex justify-around max-w-4xl mx-auto space-x-4">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">用AI技術智能分析影片片段，針對中階英文能力學習者，提升學習效果</div>
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">強化聽力訓練與理解能力</div>
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">適用強化聽力的學習者，以及breaking bad crazy fans</div>
-        </div>
-      </section> */}
-
-      <section className="py-16 bg-white text-center">
-        <h2 className="text-3xl font-bold mb-8">Breaking Bad Series</h2>
-        <div className="inline-block w-2/5">
-          {videoUrl && (
-            <video controls className="w-full rounded-lg shadow-lg">
-              <source src={videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )}
-          {/* <div className="mt-4 bg-black text-white p-4 rounded-lg">
-            {subtitleText && (
-              <p>{subtitleText}</p>
-            )}
-          </div> */}
-          <button
-            className="mt-4 bg-blue-500 text-white p-2 rounded-lg"
-            onClick={toggleSubtitles}
-          >
-            {showSubtitles ? 'Hide Subtitles' : 'Show Subtitles'}
-          </button>
-
-          {showSubtitles && (
-            <div className="mt-4 bg-black text-white p-4 rounded-lg">
-              {subtitleText.split('\n').map((line, index) => (
-                <p key={index}>{line}</p>
-              ))}
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-[#F4D35E]">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Learn English with Your Favorite TV Shows
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                  Master English naturally and enjoyably through popular TV series. Improve your vocabulary, pronunciation, and cultural understanding.
+                </p>
+              </div>
+              <div className="space-x-4">
+                <button className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300">
+                  Get Started
+                </button>
+                <button variant="outline">Learn More</button>
+              </div>
             </div>
-          )}
-        </div>
-      </section>
-
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        <p>© 2024 copyright</p>
-        <div className="space-x-4">
-          {/* <a href="#" className="hover:underline">隱私政策</a>
-          <a href="#" className="hover:underline">使用條款</a>
-          <a href="#" className="hover:underline">聯絡我們</a> */}
-        </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">How It Works</h2>
+            <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <PlayCircle className="h-12 w-12 text-gray-800 dark:text-gray-100" />
+                <h3 className="text-xl font-bold">Watch TV Series Clips</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                  Enjoy short, engaging clips from popular TV series
+                </p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <BookOpen className="h-12 w-12 text-gray-800 dark:text-gray-100" />
+                <h3 className="text-xl font-bold">Learn Vocabulary</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                  Master new words and phrases in context
+                </p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <MessageCircle className="h-12 w-12 text-gray-800 dark:text-gray-100" />
+                <h3 className="text-xl font-bold">Practice Speaking</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                  Improve pronunciation with interactive exercises
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-[#FAF0CA]">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">What Our Learners Say</h2>
+            <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+              <div className="flex flex-col items-center space-y-2 border-gray-200 dark:border-gray-700 p-4 rounded-lg border">
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                  "I've learned so much English slang and cultural references. It's like having a native speaker as a friend!"
+                </p>
+                <p className="text-sm font-bold">- Sarah K., Germany</p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-200 dark:border-gray-700 p-4 rounded-lg border">
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                  "The interactive quizzes really help me remember new vocabulary. Plus, it's so much fun!"
+                </p>
+                <p className="text-sm font-bold">- Carlos M., Brazil</p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-200 dark:border-gray-700 p-4 rounded-lg border">
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                  "I love how I can learn English while enjoying my favorite shows. It doesn't even feel like studying!"
+                </p>
+                <p className="text-sm font-bold">- Yuki T., Japan</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-[#2E2F5B] dark:bg-gray-800">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold text-white tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">Ready to Start?</h2>
+            <div className="mx-auto max-w-sm space-y-4">
+              <form className="flex flex-col gap-2">
+                <input placeholder="Enter your email" type="email" className="rounded-md" />
+                <button type="submit">Sign Up for Free Trial</button>
+              </form>
+              <p className="text-xs text-center text-white dark:text-gray-400">
+                No credit card required. Start learning today!
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 All rights reserved.</p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Terms of Service
+          </Link>
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Privacy
+          </Link>
+        </nav>
       </footer>
     </div>
+
   );
 }
