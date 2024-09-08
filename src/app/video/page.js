@@ -31,6 +31,7 @@ export default function Video() {
         const subtitleResponse = await fetch(data.subtitleUrl);
         const subtitleText = await subtitleResponse.text();
         setSubtitleText(subtitleText);
+
         setTotalClips(data.totalClips || 10);
 
         // setClipIndex(0); // 每次更換集數時，從第一個片段開始
@@ -76,20 +77,20 @@ export default function Video() {
           <select value={episode} onChange={(e) => setEpisode(e.target.value)}>
             {/* <option value="Episode_1">Episode 1</option>
             <option value="Episode_2">Episode 2</option> */}
-            <option value="Episode_2">Episode 3</option>
-            <option value="Episode_2">Episode 4</option>
-            <option value="Episode_2">Episode 5</option>
-            <option value="Episode_2">Episode 6</option>
-            <option value="Episode_2">Episode 7</option>
+            <option value="Episode_3">Episode 3</option>
+            <option value="Episode_4">Episode 4</option>
+            <option value="Episode_5">Episode 5</option>
+            <option value="Episode_6">Episode 6</option>
+            <option value="Episode_7">Episode 7</option>
 
           </select>
         </div>
         <div className='w-full flex justify-end'>
-          <div className='w-[160px] flex justify-between my-1'>
+          <div className='w-[240px] flex justify-end my-1 space-x-4'>
             <button className='text-white font-bold bg-[#6c584c] p-1 rounded-md'
               onClick={handlePreviousClip}
               disabled={clipIndex === 1}>
-              Previouse Clip
+              Pre Clip
             </button>
             <button className='text-white font-bold bg-[#6c584c] p-1 rounded-md'
               onClick={handleNextClip}
