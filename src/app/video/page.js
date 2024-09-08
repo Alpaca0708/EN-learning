@@ -25,7 +25,7 @@ export default function Video() {
         const response = await fetch(`/api/get-sign-url?season=${season}&episode=${episode}&fileName=${clipIndex}`);
         // http://localhost:3000/api/get-sign-url?season=Season_1&episode=Episode_1&fileName=3
         const data = await response.json();
-        console.log('data:::', data)
+        // console.log('data:::', data)
         // setClips(data.clips); // clips 是包含每個片段的 URL 和字幕 URL 的陣列
         setVideoUrl(data.videoUrl)
         const subtitleResponse = await fetch(data.subtitleUrl);
@@ -51,9 +51,9 @@ export default function Video() {
     if (clipIndex < totalClips) setClipIndex(clipIndex + 1);
   };
 
-  useEffect(() => {
-    console.log('clipIndex updated:', clipIndex);
-  }, [clipIndex]);
+  // useEffect(() => {
+  //   console.log('clipIndex updated:', clipIndex);
+  // }, [clipIndex]);
 
 
   return (
@@ -64,8 +64,9 @@ export default function Video() {
         <video controls className="w-full md:w-1/2 rounded-lg shadow-lg"
           src={videoUrl}>
         </video>
-        <div className='flex justify-between p-2 w-full md:w-1/2'>
-          <select value={season} onChange={(e) => setSeason(e.target.value)}>
+        <div className='flex justify-between py-4 w-full md:w-1/2'>
+          <select value={season} onChange={(e) => setSeason(e.target.value)}
+            className='p-1 rounded-md'>
             <option value="Season_1">Season 1</option>
             {/* <option value="Season_2">Season 2</option>
             <option value="Season_3">Season 3</option>
@@ -74,7 +75,8 @@ export default function Video() {
             <option value="Season_6">Season 6</option>
             <option value="Season_7">Season 7</option> */}
           </select>
-          <select value={episode} onChange={(e) => setEpisode(e.target.value)}>
+          <select value={episode} onChange={(e) => setEpisode(e.target.value)}
+            className='p-1 rounded-md'>
             {/* <option value="Episode_1">Episode 1</option>
             <option value="Episode_2">Episode 2</option> */}
             <option value="Episode_3">Episode 3</option>
