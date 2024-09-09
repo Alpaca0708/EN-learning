@@ -65,7 +65,7 @@ const storage = new Storage({
 // }
 
 // export const dynamic = 'force-dynamic';
-export const dynamic = 'force-dstatic';
+
 
 
 export async function GET(req) {
