@@ -78,23 +78,35 @@ export async function GET(req) {
     const bucketName = 'en-learning-project';
     const basePath = `breaking_bad/${season}/${episode}/`;
 
-    const options = {
-      version: 'v4',
-      action: 'read',
-      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-    };
+    // const options = {
+    //   version: 'v4',
+    //   action: 'read',
+    //   expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    // };
 
-    // 取得影片的已簽名 URL
-    const [videoUrl] = await storage
-      .bucket(bucketName)
-      .file(`${basePath}${fileName}.mp4`)
-      .getSignedUrl(options);
+    // // 取得影片的已簽名 URL
+    // const [videoUrl] = await storage
+    //   .bucket(bucketName)
+    //   .file(`${basePath}${fileName}.mp4`)
+    //   .getSignedUrl(options);
 
-    // 取得字幕的已簽名 URL
-    const [subtitleUrl] = await storage
-      .bucket(bucketName)
-      .file(`${basePath}${fileName}.txt`)
-      .getSignedUrl(options);
+    // // 取得字幕的已簽名 URL
+    // const [subtitleUrl] = await storage
+    //   .bucket(bucketName)
+    //   .file(`${basePath}${fileName}.txt`)
+    //   .getSignedUrl(options);
+    const [videoUrl, subtitleUrl] = await Promise.all([
+      storage.bucket(bucketName).file(`${basePath}${fileName}.mp4`).getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+      }),
+      storage.bucket(bucketName).file(`${basePath}${fileName}.txt`).getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+      })
+    ]);
 
     // 回傳已簽名的 URL
     return new Response(JSON.stringify({ videoUrl, subtitleUrl }), { status: 200 });
