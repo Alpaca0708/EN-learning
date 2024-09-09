@@ -64,7 +64,9 @@ const storage = new Storage({
 
 // }
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dstatic';
+
 
 export async function GET(req) {
   try {
@@ -117,5 +119,75 @@ export async function GET(req) {
     return new Response(JSON.stringify({ error: 'Failed to generate signed URLs' }), { status: 500 });
   }
 }
+
+
+// async function getCloud(req) {
+//   try {
+//     const { searchParams } = new URL(req.url);
+//     const season = searchParams.get('season');
+//     const episode = searchParams.get('episode');
+//     const fileName = searchParams.get('fileName');
+
+//     if (!season || !episode || !fileName) {
+//       throw new Error('Missing required parameters');
+//     }
+
+//     const bucketName = 'en-learning-project';
+//     const basePath = `breaking_bad/${season}/${episode}/`;
+
+//     const options = {
+//       version: 'v4',
+//       action: 'read',
+//       expires: Date.now() + 15 * 60 * 1000, // 15 分鐘內有效
+//     };
+
+//     // 使用 Promise.all 來並行取得影片與字幕的簽名 URL
+//     const [videoUrl, subtitleUrl] = await Promise.all([
+//       storage.bucket(bucketName).file(`${basePath}${fileName}.mp4`).getSignedUrl(options),
+//       storage.bucket(bucketName).file(`${basePath}${fileName}.txt`).getSignedUrl(options)
+//     ]);
+
+//     // 回傳簽名 URL
+//     return { videoUrl, subtitleUrl };
+
+//   } catch (error) {
+//     console.error('Error in getCloud:', error.message);
+//     throw new Error('Failed to retrieve cloud resources');
+//   }
+// }
+
+// // export default async function get(req) {
+// //   try {
+// //     const data = await getCloud(req);
+// //     return (
+// //       <div>
+// //         <p>Video URL: {data.videoUrl}</p>
+// //         <p>Subtitle URL: {data.subtitleUrl}</p>
+// //       </div>
+// //     );
+// //   } catch (error) {
+// //     console.error('Error in getSigned:', error.message);
+// //     return <div>Error retrieving signed URLs</div>;
+// //   }
+// // }
+
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   try {
+//     const data = await getCloud(req);
+//     return {
+//       props: {
+//         videoUrl: data.videoUrl,
+//         subtitleUrl: data.subtitleUrl,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       props: {
+//         error: 'Failed to retrieve signed URLs',
+//       },
+//     };
+//   }
+// }
 
 

@@ -22,8 +22,12 @@ export default function Video() {
     async function fetchClips() {
       try {
         // 使用季節和集數獲取對應片段
-        const response = await fetch(`/api/get-sign-url?season=${season}&episode=${episode}&fileName=${clipIndex}`);
-
+        const response = await fetch(`/api/get-sign-url?season=${season}&episode=${episode}&fileName=${clipIndex}`, {
+          method: 'GET',
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch signed URLs');
+        }
         const data = await response.json();
         console.log('data:::', data)
         // setClips(data.clips); // clips 是包含每個片段的 URL 和字幕 URL 的陣列
@@ -51,9 +55,18 @@ export default function Video() {
     if (clipIndex < totalClips) setClipIndex(clipIndex + 1);
   };
 
-  // useEffect(() => {
-  //   console.log('clipIndex updated:', clipIndex);
-  // }, [clipIndex]);
+  // export default function VideoPage({ videoUrl, subtitleUrl, error }) {
+  //   if (error) {
+  //     return <div>{error}</div>;
+  //   }
+
+  //   return (
+  //     <div>
+  //       <p>Video URL: {videoUrl}</p>
+  //       <p>Subtitle URL: {subtitleUrl}</p>
+  //     </div>
+  //   );
+  // }
 
 
   return (
@@ -134,6 +147,7 @@ export default function Video() {
             </div>
           }
         </div>
+
 
       </div>
 
