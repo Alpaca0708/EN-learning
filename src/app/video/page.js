@@ -23,9 +23,9 @@ export default function Video() {
       try {
         // 使用季節和集數獲取對應片段
         const response = await fetch(`/api/get-sign-url?season=${season}&episode=${episode}&fileName=${clipIndex}`);
-        // http://localhost:3000/api/get-sign-url?season=Season_1&episode=Episode_1&fileName=3
+
         const data = await response.json();
-        // console.log('data:::', data)
+        console.log('data:::', data)
         // setClips(data.clips); // clips 是包含每個片段的 URL 和字幕 URL 的陣列
         setVideoUrl(data.videoUrl)
         const subtitleResponse = await fetch(data.subtitleUrl);
