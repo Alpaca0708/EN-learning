@@ -2,6 +2,7 @@
 
 import { Storage } from '@google-cloud/storage';
 
+
 const storage = new Storage({
   projectId: process.env.GOOGLE_PROJECT_ID,
   credentials: {
@@ -63,6 +64,7 @@ const storage = new Storage({
 
 // }
 
+export const dynamic = 'force-dynamic';
 
 export async function GET(req) {
   try {
