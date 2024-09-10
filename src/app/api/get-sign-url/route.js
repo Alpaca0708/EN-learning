@@ -11,6 +11,8 @@ const storage = new Storage({
   },
 });
 
+
+
 // export async function handler(req, res) {
 //   const { fileName } = req.query;  // 从请求参数中获取文件名
 
@@ -64,10 +66,6 @@ const storage = new Storage({
 
 // }
 
-export const dynamic = 'force-dynamic';
-
-
-
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -99,6 +97,10 @@ export async function GET(req) {
       .bucket(bucketName)
       .file(`${basePath}${fileName}.txt`)
       .getSignedUrl(options);
+
+    const [files] = await storage.bucket(bucketName).getFiles({ prefix: basePath });
+    const clipCount = files.filter(file => file.name.endsWith('.mp4')).length; // 假設 clip 是 mp4 格式
+
     // const [videoUrl, subtitleUrl] = await Promise.all([
     //   storage.bucket(bucketName).file(`${basePath}${fileName}.mp4`).getSignedUrl({
     //     version: 'v4',
@@ -113,7 +115,7 @@ export async function GET(req) {
     // ]);
 
     // 回傳已簽名的 URL
-    return new Response(JSON.stringify({ videoUrl, subtitleUrl }), { status: 200 });
+    return new Response(JSON.stringify({ videoUrl, subtitleUrl, clipCount }), { status: 200 });
   } catch (error) {
     console.error('Error generating signed URLs:', error);
     return new Response(JSON.stringify({ error: 'Failed to generate signed URLs' }), { status: 500 });
