@@ -125,10 +125,10 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold text-white tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">Ready to Start?</h2>
             <div className="mx-auto max-w-sm space-y-4">
-              <form className="flex flex-col gap-2">
+              <form className="flex flex-col gap-2 p-3">
                 <input placeholder="Enter your email" type="email" className="rounded-md h-9 px-2" />
                 <button type="submit" className=" h-9 rounded-md p-2 inline-flex justify-center items-center bg-gray-900 text-gray-50 ">
-                  Sign Up for Free Trial
+                  Log In for Free Trial
                 </button>
               </form>
               <p className=" text-xs text-center text-white dark:text-gray-400">

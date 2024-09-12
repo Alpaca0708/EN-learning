@@ -1,6 +1,7 @@
 {
   "name": "en-learning-frontend",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +11,9 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^7.12.1",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.438.0",
+    "mongodb": "^6.8.1",
     "next": "14.2.7",
     "next-auth": "^4.24.7",
     "react": "^18",
