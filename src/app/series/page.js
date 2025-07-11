@@ -7,7 +7,7 @@ import Layout from "@/app/components/Layout";
 // You might want to remove this in production to allow caching.
 async function getSeries() {
   // NOTE: When deploying, you must use the full absolute URL of your production environment.
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.NEXT_API_URL || "http://localhost:3000";
   const res = await fetch(`${apiUrl}/api/series`, { cache: "no-store" });
 
   if (!res.ok) {
