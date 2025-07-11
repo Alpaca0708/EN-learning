@@ -1,8 +1,8 @@
 // Step 1: Import modules using the modern ES Module syntax.
-import mongoose from 'mongoose';
-import Series from '../src/models/Series.js';
-import Season from '../src/models/Season.js';
-import Episode from '../src/models/Episode.js';
+import mongoose from "mongoose";
+import Series from "../src/models/Series.js";
+import Season from "../src/models/Season.js";
+import Episode from "../src/models/Episode.js";
 
 // --- Data Definition ---
 // This part remains the same.
@@ -10,7 +10,8 @@ const seriesData = [
   {
     title: "Breaking Bad",
     slug: "breaking-bad",
-    description: "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
+    description:
+      "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
     posterImageUrl: "/posters/breaking-bad.jpg",
     seasons: [
       {
@@ -18,15 +19,27 @@ const seriesData = [
         episodes: [
           { episodeNumber: 1, title: "Pilot", clipCount: 20 },
           { episodeNumber: 2, title: "Cat's in the Bag...", clipCount: 14 },
-          { episodeNumber: 3, title: "...And the Bag's in the River", clipCount: 9 },
+          {
+            episodeNumber: 3,
+            title: "...And the Bag's in the River",
+            clipCount: 9,
+          },
           { episodeNumber: 4, title: "Cancer Man", clipCount: 19 },
           { episodeNumber: 5, title: "Gray Matter", clipCount: 20 },
-          { episodeNumber: 6, title: "Crazy Handful of Nothin'", clipCount: 10 },
-          { episodeNumber: 7, title: "A No-Rough-Stuff-Type Deal", clipCount: 13 },
-        ]
-      }
-    ]
-  }
+          {
+            episodeNumber: 6,
+            title: "Crazy Handful of Nothin'",
+            clipCount: 10,
+          },
+          {
+            episodeNumber: 7,
+            title: "A No-Rough-Stuff-Type Deal",
+            clipCount: 13,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 // --- Seeding Logic ---
@@ -35,7 +48,9 @@ const seedDatabase = async () => {
   // We will load the .env.local file using a command-line flag instead of the dotenv package.
   const dbUri = process.env.MONGODB_URI;
   if (!dbUri) {
-    console.error("Error: MONGODB_URI is not defined. Make sure you are running the script with --env-file=.env.local");
+    console.error(
+      "Error: MONGODB_URI is not defined. Make sure you are running the script with --env-file=.env.local"
+    );
     process.exit(1);
   }
 
@@ -67,7 +82,8 @@ const seedDatabase = async () => {
         });
 
         for (const episodeItem of seasonItem.episodes) {
-          const gcsPathPrefix = `series/${seriesItem.slug}/season-${seasonItem.seasonNumber}/episode-${episodeItem.episodeNumber}`;
+          // const gcsPathPrefix = `series/${seriesItem.slug}/season-${seasonItem.seasonNumber}/episode-${episodeItem.episodeNumber}`;
+          const gcsPathPrefix = `${seriesItem.slug.replace(/-/g, "_")}/Season_${seasonItem.seasonNumber}/Episode_${episodeItem.episodeNumber}`;
           const newEpisode = new Episode({
             episodeNumber: episodeItem.episodeNumber,
             title: episodeItem.title,
@@ -86,7 +102,6 @@ const seedDatabase = async () => {
     }
 
     console.log("Database seeded successfully!");
-
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {
