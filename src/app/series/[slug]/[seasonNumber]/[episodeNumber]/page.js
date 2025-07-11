@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 
 // Fetches the initial data for the episode
 async function getEpisodeData(slug, seasonNumber, episodeNumber) {
-  const apiUrl = process.env.NEXT_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(
     `${apiUrl}/api/series/${slug}/${seasonNumber}/${episodeNumber}`,
     { cache: "no-store" }

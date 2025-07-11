@@ -4,7 +4,7 @@ import Layout from "@/app/components/Layout";
 
 // This function fetches the data for a single series by its slug.
 const getSeriesData = async (slug) => {
-  const apiUrl = process.env.NEXT_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(`${apiUrl}/api/series/${slug}`, {
     cache: "no-store",
   });

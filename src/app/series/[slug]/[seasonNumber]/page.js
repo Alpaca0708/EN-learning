@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 // Fetches the data for a specific season, including its episodes
 async function getSeasonData(slug, seasonNumber) {
-  const apiUrl = process.env.NEXT_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(`${apiUrl}/api/series/${slug}/${seasonNumber}`, {
     cache: "no-store",
   });
