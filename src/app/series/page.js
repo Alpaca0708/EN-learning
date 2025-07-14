@@ -1,7 +1,10 @@
+// "use client";
 import Image from "next/image";
 import Link from "next/link";
 import Layout from "@/app/components/Layout";
-import dbConnect from "@/lib/dbConnect";
+// import dbConnect from "@/lib/dbConnect";
+// import Series from "@/models/Series";
+// import { useEffect } from "react";
 
 // Function to fetch series data from our API endpoint
 // Using { cache: 'no-store' } to ensure fresh data on every request during development.
@@ -22,9 +25,14 @@ async function getSeries() {
 
 // This is a Server Component. It fetches data on the server before rendering.
 export default async function SeriesPage() {
-  // const seriesList = await getSeries();
-  await dbConnect();
-  const seriesList = await Series.find({});
+  const seriesList = await getSeries();
+  // await dbConnect();
+  // const seriesList = await Series.find({});
+  // useEffect(() => {
+  //   console.log("seriesList::", seriesList);
+  // }, [seriesList]);
+
+  console.log("seriesList::", seriesList);
 
   return (
     <Layout>
