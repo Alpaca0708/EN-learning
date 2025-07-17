@@ -1,4 +1,4 @@
-import Layout from "@/app/components/Layout";
+// import Layout from "@/app/components/Layout";
 import EpisodePlayer from "@/app/components/EpisodePlayer";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
@@ -36,35 +36,33 @@ export default async function EpisodePage({ params }) {
   }
 
   return (
-    <Layout>
-      <div className="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-col items-center py-5 text-white">
-        <div className="max-w-4xl w-full">
-          {/* Breadcrumb Navigation */}
-          <div className="flex items-center text-lg mb-2 text-gray-400 flex-wrap">
-            <Link href="/series" className="hover:text-white">
-              Series
-            </Link>
-            <ChevronRight size={20} className="mx-1" />
-            <Link href={`/series/${slug}`} className="hover:text-white">
-              {episode.seriesTitle}
-            </Link>
-            <ChevronRight size={20} className="mx-1" />
-            <Link
-              href={`/series/${slug}/${seasonNumber}`}
-              className="hover:text-white"
-            >
-              Season {episode.seasonNumber}
-            </Link>
-            <ChevronRight size={20} className="mx-1" />
-            <span className="text-white">Episode {episode.episodeNumber}</span>
-          </div>
-
-          <h1 className="text-3xl font-bold mb-4">{episode.title}</h1>
-
-          {/* The Client Component for the player is rendered here */}
-          <EpisodePlayer episodeData={episode} />
+    <div className="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-col items-center py-5 text-white">
+      <div className="max-w-4xl w-full">
+        {/* Breadcrumb Navigation */}
+        <div className="flex items-center text-lg mb-2 text-gray-400 flex-wrap">
+          <Link href="/series" className="hover:text-white">
+            Series
+          </Link>
+          <ChevronRight size={20} className="mx-1" />
+          <Link href={`/series/${slug}`} className="hover:text-white">
+            {episode.seriesTitle}
+          </Link>
+          <ChevronRight size={20} className="mx-1" />
+          <Link
+            href={`/series/${slug}/${seasonNumber}`}
+            className="hover:text-white"
+          >
+            Season {episode.seasonNumber}
+          </Link>
+          <ChevronRight size={20} className="mx-1" />
+          <span className="text-white">Episode {episode.episodeNumber}</span>
         </div>
+
+        <h1 className="text-3xl font-bold mb-4">{episode.title}</h1>
+
+        {/* The Client Component for the player is rendered here */}
+        <EpisodePlayer episodeData={episode} />
       </div>
-    </Layout>
+    </div>
   );
 }

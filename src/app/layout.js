@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import { Search } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +13,110 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div>
+          <header className="bg-[#171212] px-10 py-3 flex items-center justify-between fixed top-0 left-0 right-0 z-50 border-b border-[#e5e8eb]/10">
+            {/* Logo 和导航 */}
+            <div className="flex items-center gap-4">
+              <Link className="flex items-center gap-4" href="/">
+                <div className="h-14 flex items-center">
+                  <img
+                    src="/en-learning-logo-transparent.png"
+                    alt="EN Learning Logo"
+                    className="h-14 w-auto"
+                  />
+                </div>
+              </Link>
+              <nav className="flex items-center gap-9">
+                <Link
+                  className="hover:underline underline-offset-4 text-white text-sm font-medium hover:text-gray-300 transition-colors"
+                  href="/home"
+                >
+                  Home
+                </Link>
+                <Link
+                  className="hover:underline underline-offset-4 text-white text-sm font-medium hover:text-gray-300 transition-colors"
+                  href="/series"
+                >
+                  Series
+                </Link>
+                <Link
+                  className="hover:underline underline-offset-4 text-white text-sm font-medium hover:text-gray-300 transition-colors"
+                  href="/movies"
+                >
+                  Movies
+                </Link>
+                <Link
+                  className="hover:underline underline-offset-4 text-white text-sm font-medium hover:text-gray-300 transition-colors"
+                  href="/my-list"
+                >
+                  My List
+                </Link>
+              </nav>
+            </div>
+
+            {/* 右侧功能区 */}
+            <div className="flex items-center gap-8">
+              {/* 搜索框 */}
+              <div className="flex items-center min-w-40 max-w-64">
+                <div className="flex w-full items-center rounded-lg h-10">
+                  <div className="bg-[#382929] pl-4 rounded-l-lg flex items-center justify-center h-full">
+                    <Search className="w-6 h-6 text-[#b89e9e]" />
+                  </div>
+                  <input
+                    className="flex-1 bg-[#382929] text-white placeholder-[#b89e9e] px-2 pr-4 py-2 rounded-r-lg text-base h-full border-none outline-none"
+                    placeholder="Search"
+                  />
+                </div>
+              </div>
+
+              {/* 通知图标 */}
+              <div className="bg-[#382929] h-10 w-10 rounded-lg flex items-center justify-center">
+                <div className="w-5 h-5 text-white">
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-full h-full"
+                  >
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* 用户头像 */}
+              <div className="w-10 h-10 rounded-full bg-gray-400 overflow-hidden">
+                <img
+                  src="/api/placeholder/40/40"
+                  alt="User Avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </header>
+
+          <main className="pt-[80px] pb-[65px]">{children}</main>
+
+          <footer className="bg-[#faedcd] flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t fixed bottom-0 left-0 right-0 z-50">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              © 2024 All rights reserved.
+            </p>
+            <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+              <Link
+                className="text-xs hover:underline underline-offset-4"
+                href="#"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                className="text-xs hover:underline underline-offset-4"
+                href="#"
+              >
+                Privacy
+              </Link>
+            </nav>
+          </footer>
+        </div>
+      </body>
     </html>
   );
 }

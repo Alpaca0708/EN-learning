@@ -77,7 +77,7 @@ export default function EpisodePlayer({ episodeData }) {
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Video Player Section */}
-      <div className="bg-[#382929] rounded-lg p-6 mb-6">
+      <div className="rounded-lg mb-6">
         <div className="w-full aspect-video bg-black flex items-center justify-center rounded-lg shadow-lg overflow-hidden">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center text-white">
@@ -135,7 +135,7 @@ export default function EpisodePlayer({ episodeData }) {
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
-              Previous
+              Prev
             </button>
             <button
               className="px-6 py-3 text-white font-bold bg-[#6c584c] rounded-lg disabled:bg-gray-600 disabled:cursor-not-allowed hover:bg-[#5a4a3f] transition-colors duration-200 flex items-center gap-2"
