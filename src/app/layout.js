@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Search } from "lucide-react";
-
+import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -21,6 +21,8 @@ export default function RootLayout({ children }) {
               <Link className="flex items-center gap-4" href="/">
                 <div className="h-14 flex items-center">
                   <img
+                    // width={56}
+                    // height={56}
                     src="/en-learning-logo-transparent.png"
                     alt="EN Learning Logo"
                     className="h-14 w-auto"
@@ -85,7 +87,9 @@ export default function RootLayout({ children }) {
 
               {/* 用户头像 */}
               <div className="w-10 h-10 rounded-full bg-gray-400 overflow-hidden">
-                <img
+                <Image
+                  width={40}
+                  height={40}
                   src="/api/placeholder/40/40"
                   alt="User Avatar"
                   className="w-full h-full object-cover"

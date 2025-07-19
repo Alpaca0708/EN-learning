@@ -8,14 +8,6 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -58,7 +50,7 @@ body {
 .hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: url('/images/hero-bg.jpg') no-repeat center center/cover;
+  background: url("/images/hero-bg.jpg") no-repeat center center/cover;
   color: white;
 }
 
@@ -136,4 +128,3 @@ body {
   text-decoration: none;
   margin: 0 1rem;
 }
-
