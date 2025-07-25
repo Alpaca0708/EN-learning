@@ -1,7 +1,6 @@
 {
   "name": "en-learning-frontend",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,7 +15,7 @@
     "mongodb": "^6.8.1",
     "mongoose": "^8.16.2",
     "next": "14.2.7",
-    "next-auth": "^4.24.7",
+    "next-auth": "^4.24.11",
     "react": "^18",
     "react-dom": "^18"
   },
