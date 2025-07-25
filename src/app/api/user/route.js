@@ -2,10 +2,26 @@ import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
-import { authOptions } from "../auth/[...nextauth]";
+// import { authOptions } from "../auth/[...nextauth]";
 
+function getSessionFromCookie() {
+  try {
+    const cookieStore = cookies();
+    const sessionCookie = cookieStore.get("session");
+
+    if (!sessionCookie) {
+      return null;
+    }
+
+    return JSON.parse(sessionCookie.value);
+  } catch (error) {
+    console.error("Session parsing error:", error);
+    return null;
+  }
+}
 export async function GET(request) {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
+  const session = getSessionFromCookie();
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
