@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
-// import { authOptions } from "../auth/[...nextauth]";
 
 function getSessionFromCookie() {
   try {
@@ -46,7 +45,7 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession();
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

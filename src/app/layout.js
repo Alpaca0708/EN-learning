@@ -6,7 +6,7 @@ import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
 import AuthProvider from "./components/AuthProvider";
 import UserMenu from "./components/UserMenu";
-import { SessionProvider } from "next-auth/react";
+import BuyMeCoffeeButton from "./components/BuyMeCoffeeButton";
 
 export const metadata = {
   title: "En Learning",
@@ -124,6 +124,7 @@ export default function RootLayout({ children }) {
                 </Link>
               </nav>
             </footer>
+            <BuyMeCoffeeButton />
           </div>
         </AuthProvider>
       </body>
