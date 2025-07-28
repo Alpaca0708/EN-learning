@@ -19,7 +19,29 @@ const UserSchema = new mongoose.Schema(
     },
     image: String,
 
-    // 學習相關資料
+    // 語音社群相關
+    bio: {
+      type: String,
+      maxlength: 200,
+      default: "",
+    },
+    level: {
+      type: String,
+      enum: ["beginner", "intermediate", "advanced"],
+      default: "beginner",
+    },
+
+    // 統計資料
+    totalPosts: {
+      type: Number,
+      default: 0,
+    },
+    totalReplies: {
+      type: Number,
+      default: 0,
+    },
+
+    // 原有欄位
     preferences: {
       language: {
         type: String,
@@ -35,17 +57,6 @@ const UserSchema = new mongoose.Schema(
       },
     },
 
-    // 統計資料
-    totalWatchTime: {
-      type: Number,
-      default: 0, // 秒數
-    },
-    totalNotes: {
-      type: Number,
-      default: 0,
-    },
-
-    // 訂閱狀態（為未來付費功能準備）
     subscription: {
       type: String,
       enum: ["free", "basic", "pro", "premium"],
@@ -60,7 +71,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 添加索引
 UserSchema.index({ googleId: 1 });
 UserSchema.index({ email: 1 });
 

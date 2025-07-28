@@ -1,6 +1,7 @@
 import Link from "next/link";
 // import Layout from "@/app/components/Layout";
 import { ChevronRight } from "lucide-react";
+import FavoriteButton from "@/app/components/FavoriteButton";
 
 // Fetches the data for a specific season, including its episodes
 async function getSeasonData(slug, seasonNumber) {
@@ -31,6 +32,8 @@ export default async function SeasonPage({ params }) {
     );
   }
 
+  console.log("season data:::", season);
+
   return (
     <div className="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-col items-center py-5 text-white">
       <div className="max-w-4xl w-full">
@@ -53,19 +56,23 @@ export default async function SeasonPage({ params }) {
         <div className="flex flex-col gap-3">
           {season.episodes &&
             season.episodes.map((episode) => (
-              <Link
-                href={`/series/${slug}/${seasonNumber}/${episode.episodeNumber}`}
-                key={episode._id}
-                className="bg-gray-800 hover:bg-gray-700 transition-colors duration-200 rounded-lg p-4 flex justify-between items-center"
-              >
-                <div>
-                  <p className="text-xl font-semibold">
-                    Episode {episode.episodeNumber}
-                  </p>
-                  <p className="text-gray-400">{episode.title}</p>
-                </div>
-                <ChevronRight size={24} />
-              </Link>
+              <div className="flex w-full justify-between items-center">
+                <Link
+                  href={`/series/${slug}/${seasonNumber}/${episode.episodeNumber}`}
+                  key={episode._id}
+                  className="w-full bg-gray-800 hover:bg-gray-700 transition-colors duration-200 rounded-lg p-4 flex justify-between items-center"
+                >
+                  <div>
+                    <p className="text-xl font-semibold">
+                      Episode {episode.episodeNumber}
+                    </p>
+                    <p className="text-gray-400">{episode.title}</p>
+                  </div>
+                  {/* <ChevronRight size={24} /> */}
+                  {/* <FavoriteButton episodeId={episode._id} /> */}
+                </Link>
+                <FavoriteButton episodeId={episode._id} />
+              </div>
             ))}
           {(!season.episodes || season.episodes.length === 0) && (
             <p className="text-gray-400">

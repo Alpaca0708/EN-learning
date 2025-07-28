@@ -112,7 +112,7 @@ export default function UserMenu() {
               className="w-full flex items-center gap-3 px-4 py-2 text-[#b89e9e] hover:text-white hover:bg-[#382929] transition-colors duration-200"
             >
               <BookOpen className="w-4 h-4" />
-              My Notes
+              My List
             </button>
 
             <button

@@ -90,15 +90,6 @@ export default function RootLayout({ children }) {
                 </div>
 
                 {/* 用户头像 */}
-                {/* <div className="w-10 h-10 rounded-full bg-gray-400 overflow-hidden">
-                  <Image
-                    width={40}
-                    height={40}
-                    src="/api/placeholder/40/40"
-                    alt="User Avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div> */}
                 <UserMenu />
               </div>
             </header>

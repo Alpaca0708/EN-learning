@@ -2,6 +2,7 @@
 import EpisodePlayer from "@/app/components/EpisodePlayer";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import FavoriteButton from "@/app/components/FavoriteButton";
 
 // Fetches the initial data for the episode
 async function getEpisodeData(slug, seasonNumber, episodeNumber) {
@@ -35,6 +36,8 @@ export default async function EpisodePage({ params }) {
     );
   }
 
+  console.log("episode data:::", episode);
+
   return (
     <div className="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-col items-center py-5 text-white">
       <div className="max-w-4xl w-full">
@@ -59,6 +62,7 @@ export default async function EpisodePage({ params }) {
         </div>
 
         <h1 className="text-3xl font-bold mb-4">{episode.title}</h1>
+        {/* <FavoriteButton episodeId={episode._id} /> */}
 
         {/* The Client Component for the player is rendered here */}
         <EpisodePlayer episodeData={episode} />
