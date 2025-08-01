@@ -93,7 +93,7 @@ export default function MyListPage() {
             onClick={fetchFavorites}
             className="mt-4 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg"
           >
-            重新載入
+            reload
           </button>
         </div>
       </div>
@@ -126,7 +126,7 @@ export default function MyListPage() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {favorites.map((favorite) => (
                 <FavoriteCard
                   key={favorite._id}
@@ -195,7 +195,7 @@ function FavoriteCard({ favorite, onRemove }) {
             className="flex-1 bg-gray-700 hover:bg-gray-600 flex items-center justify-center gap-2 py-2 rounded-lg transition-colors"
           >
             <Clock size={16} />
-            <span className="text-sm">More episodes</span>
+            <span className="text-sm">More</span>
           </Link>
         </div>
       </div>
