@@ -2,11 +2,11 @@ import { Storage } from "@google-cloud/storage";
 import formidable from "formidable";
 import { NextResponse } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: false, // 禁用 Next.js 預設 bodyParser
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: false, // 禁用 Next.js 預設 bodyParser
+//   },
+// };
 
 const storage = new Storage({
   projectId: process.env.GOOGLE_PROJECT_ID,
