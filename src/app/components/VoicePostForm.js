@@ -4,9 +4,9 @@ import { Mic, MicOff, Play, Pause, Send, Volume2 } from "lucide-react";
 
 import { useSession } from "next-auth/react";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 
-const VoicePostForm = () => {
+const VoicePostForm = ({ targetText = "", onClose }) => {
   const { data: session } = useSession();
   const [status, setStatus] = useState("idle");
   const [audioUrl, setAudioUrl] = useState("");
@@ -62,9 +62,13 @@ const VoicePostForm = () => {
     try {
       const formData = new FormData();
       formData.append("file", audioBlob, "audio.webm");
+      if (targetText) {
+        formData.append("targetText", targetText);
+      }
       const resp = await fetch("/api/voice-to-ai", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
       if (!resp.ok) throw new Error("fail to send");
       const result = await resp.json();
@@ -76,6 +80,12 @@ const VoicePostForm = () => {
       setStatus("preview");
     }
   };
+
+  useEffect(() => {
+    if (aiText) {
+      console.log("aiText::::", aiText);
+    }
+  }, [audioUrl]);
 
   const handleReset = () => {
     setAudioUrl("");
@@ -167,6 +177,24 @@ const VoicePostForm = () => {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
+
+  const feedback = useMemo(() => {
+    if (!aiText) return null;
+    try {
+      return JSON.parse(aiText);
+    } catch (e) {
+      // 容錯: 有時 GPT 會多包解釋/其他字串
+      const match = aiText.match(/\{[\s\S]*\}/);
+      if (match) {
+        try {
+          return JSON.parse(match[0]);
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    }
+  }, [aiText]);
 
   return (
     <div className="w-full max-w-md mx-auto p-6 rounded-2xl shadow-lg flex flex-col items-center gap-6 bg-[#1F1414] border border-[#40292B]">
@@ -293,7 +321,7 @@ const VoicePostForm = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-3 justify-center">
+            <div className="flex gap-3 justify-end">
               <button
                 className="px-4 py-2 bg-[#40292B] text-[#FFFFFF] rounded-lg hover:bg-[#4a2f31] transition-all duration-200 font-medium"
                 onClick={handleReset}
@@ -320,10 +348,10 @@ const VoicePostForm = () => {
         <div className="flex flex-col items-center">
           <div className="w-12 h-12 border-4 border-[#E8B5B8] rounded-full border-t-transparent animate-spin mb-4"></div>
           <div className="text-[#E8B5B8] text-lg font-semibold mb-2">
-            處理中...
+            processing...
           </div>
           <div className="text-[#FFFFFF] text-sm text-center">
-            正在發送語音並等待 AI 回應
+            waiting for AI reply...
           </div>
         </div>
       )}
@@ -333,15 +361,39 @@ const VoicePostForm = () => {
           <div className="w-full">
             <div className="text-center mb-4">
               <div className="w-12 h-12 bg-[#E8B5B8] rounded-full flex items-center justify-center mx-auto mb-2">
-                <span className="text-xl">✅</span>
+                <span className="text-xl">🐰</span>
               </div>
-              <h3 className="text-[#FFFFFF] text-lg font-semibold">AI 回覆</h3>
+              <h3 className="text-[#FFFFFF] text-lg font-semibold">
+                AI reply :
+              </h3>
             </div>
 
             <div className="bg-[#40292B] rounded-xl p-4 mb-4">
-              <div className="text-[#E8B5B8] font-semibold mb-2">AI 回應：</div>
-              <div className="bg-[#1F1414] rounded-lg p-3 text-[#FFFFFF] text-sm">
-                {aiText}
+              <div className="text-[#E8B5B8] font-semibold mb-2">
+                AI speak：
+              </div>
+              <div className="bg-[#1F1414] rounded-lg text-[#FFFFFF] text-sm">
+                {feedback ? (
+                  <div className="space-y-3 bg-[#222] p-4 rounded-xl">
+                    <div>
+                      <strong>Score:</strong>
+                      <div className="text-white">{feedback.score ?? "-"}</div>
+                    </div>
+                    <div>
+                      <strong>Suggestion:</strong>
+                      <div className="text-white">{feedback.suggestion}</div>
+                    </div>
+                    {/* <div>
+                      <strong>IELTS Tip:</strong>
+                      <div className="text-white">{feedback.comment}</div>
+                    </div> */}
+                  </div>
+                ) : (
+                  // fallback 如果沒成功 parse 或 GPT 回傳格式錯誤
+                  <div className="text-red-400 whitespace-pre-wrap">
+                    {aiText}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -407,7 +459,7 @@ const VoicePostForm = () => {
                 className="px-6 py-3 bg-[#E8B5B8] text-[#1F1414] rounded-xl hover:bg-[#d4a5a8] transition-all duration-200 font-semibold shadow-lg"
                 onClick={handleReset}
               >
-                再錄一次
+                New Post
               </button>
             </div>
           </div>

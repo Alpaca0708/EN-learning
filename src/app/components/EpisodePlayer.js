@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import VoicePostForm from "./VoicePostForm";
+import { CircleX } from "lucide-react";
 
 // The EpisodePlayer component handles all client-side interactivity.
 export default function EpisodePlayer({ episodeData }) {
@@ -9,12 +11,14 @@ export default function EpisodePlayer({ episodeData }) {
   const [clipIndex, setClipIndex] = useState(1); // Start with the first clip
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showVoiceForm, setShowVoiceForm] = useState(false);
 
   const totalClips = episodeData.clipCount;
 
   useEffect(() => {
     // This effect runs whenever the clipIndex changes.
     if (!episodeData) return;
+    console.log("episodeData::::", episodeData);
 
     async function fetchClip() {
       setIsLoading(true);
@@ -39,8 +43,8 @@ export default function EpisodePlayer({ episodeData }) {
         const data = await response.json();
         // console.log("data", data);
         setVideoUrl(data.videoUrl);
-        console.log("fileName", fileName);
-        console.log("videoUrl", data.videoUrl);
+        // console.log("fileName", fileName);
+        // console.log("videoUrl", data.videoUrl);
 
         // Fetch the subtitle content from the signed URL
         const subtitleResponse = await fetch(data.subtitleUrl);
@@ -78,14 +82,14 @@ export default function EpisodePlayer({ episodeData }) {
     <div className="w-full max-w-6xl mx-auto">
       {/* Video Player Section */}
       <div className="rounded-lg mb-6">
-        <div className="w-full aspect-video bg-black flex items-center justify-center rounded-lg shadow-lg overflow-hidden">
+        <div className="w-full aspect-video bg-[#1F1414] flex items-center justify-center rounded-lg shadow-lg overflow-hidden border border-[#40292B]">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center text-white">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
+            <div className="flex flex-col items-center justify-center text-[#FFFFFF]">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#E8B5B8] mb-4"></div>
               <p className="text-lg">Loading clip...</p>
             </div>
           ) : error ? (
-            <div className="flex flex-col items-center justify-center text-red-400">
+            <div className="flex flex-col items-center justify-center text-[#E8B5B8]">
               <p className="text-lg font-semibold mb-2">Error</p>
               <p className="text-sm">{error}</p>
             </div>
@@ -96,6 +100,8 @@ export default function EpisodePlayer({ episodeData }) {
               key={videoUrl}
               className="w-full h-full rounded-lg"
               src={videoUrl}
+              playsInline
+              webkit-playsinline="true"
             >
               Your browser does not support the video tag.
             </video>
@@ -105,12 +111,12 @@ export default function EpisodePlayer({ episodeData }) {
         {/* Navigation Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
           <div className="flex items-center gap-4">
-            <p className="text-white text-lg font-semibold">
+            <p className="text-[#FFFFFF] text-lg font-semibold">
               Clip {clipIndex} / {totalClips}
             </p>
-            <div className="w-32 bg-[#181111] rounded-full h-2">
+            <div className="w-32 bg-[#2a1f1f] rounded-full h-2 border border-[#40292B]">
               <div
-                className="bg-[#6c584c] h-2 rounded-full transition-all duration-300"
+                className="bg-[#E8B5B8] h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(clipIndex / totalClips) * 100}%` }}
               ></div>
             </div>
@@ -118,7 +124,7 @@ export default function EpisodePlayer({ episodeData }) {
 
           <div className="flex gap-3">
             <button
-              className="px-6 py-3 text-white font-bold bg-[#6c584c] rounded-lg disabled:bg-gray-600 disabled:cursor-not-allowed hover:bg-[#5a4a3f] transition-colors duration-200 flex items-center gap-2"
+              className="px-6 py-3 text-[#1F1414] font-bold bg-[#E8B5B8] rounded-lg disabled:bg-[#b89e9e] disabled:cursor-not-allowed hover:bg-[#d4a5a8] transition-colors duration-200 flex items-center gap-2"
               onClick={handlePreviousClip}
               disabled={clipIndex === 1 || isLoading}
             >
@@ -138,7 +144,7 @@ export default function EpisodePlayer({ episodeData }) {
               Prev
             </button>
             <button
-              className="px-6 py-3 text-white font-bold bg-[#6c584c] rounded-lg disabled:bg-gray-600 disabled:cursor-not-allowed hover:bg-[#5a4a3f] transition-colors duration-200 flex items-center gap-2"
+              className="px-6 py-3 text-[#1F1414] font-bold bg-[#E8B5B8] rounded-lg disabled:bg-[#b89e9e] disabled:cursor-not-allowed hover:bg-[#d4a5a8] transition-colors duration-200 flex items-center gap-2"
               onClick={handleNextClip}
               disabled={clipIndex === totalClips || isLoading}
             >
@@ -162,37 +168,62 @@ export default function EpisodePlayer({ episodeData }) {
       </div>
 
       {/* Subtitles Section */}
-      <div className="bg-[#382929] rounded-lg p-6">
+      <div className="bg-[#2a1f1f] border border-[#40292B] rounded-lg p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 bg-[#6c584c] rounded-full flex items-center justify-center">
-            <svg
-              className="w-4 h-4 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
+          <div className="flex w-full">
+            <div className="w-8 h-8 bg-[#E8B5B8] rounded-full flex items-center justify-center mr-2">
+              <svg
+                className="w-4 h-4 text-[#1F1414]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-[#FFFFFF] text-xl font-bold">Subtitles</h3>
           </div>
-          <h3 className="text-white text-xl font-bold">Subtitles</h3>
+          <button
+            className="px-4 py-2 bg-[#E8B5B8] text-xl font-semibold text-[#FFFFFF] rounded-lg hover:bg-[#4a2f31] transition-colors duration-200"
+            onClick={() => setShowVoiceForm(true)}
+          >
+            Shadowing
+          </button>
         </div>
 
-        <div className="bg-[#181111] rounded-lg p-4 min-h-[200px]">
-          <div className="text-gray-300 whitespace-pre-wrap font-mono text-sm leading-relaxed">
+        {showVoiceForm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <div className="bg-[#1F1414] rounded-2xl p-8 shadow-xl max-w-lg w-full relative">
+              <button
+                onClick={() => setShowVoiceForm(false)}
+                className="absolute top-3 right-3 text-[#E8B5B8] hover:text-white text-2xl"
+              >
+                <CircleX size={24} />
+              </button>
+              <VoicePostForm
+                targetText={subtitleText}
+                onClose={() => setShowVoiceForm(false)}
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="bg-[#1F1414] border border-[#40292B] rounded-lg p-4 min-h-[200px]">
+          <div className="text-[#FFFFFF] whitespace-pre-wrap font-mono text-sm leading-relaxed">
             {isLoading ? (
-              <div className="flex items-center gap-2 text-gray-400">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-400"></div>
+              <div className="flex items-center gap-2 text-[#b89e9e]">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#E8B5B8]"></div>
                 Loading subtitles...
               </div>
             ) : subtitleText ? (
               subtitleText
             ) : (
-              <p className="text-gray-500 italic">
+              <p className="text-[#b89e9e] italic">
                 No subtitles available for this clip.
               </p>
             )}
