@@ -3,13 +3,17 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"; // 改用 NextAuth
 import Link from "next/link";
-import { Play, Heart, Clock, Calendar } from "lucide-react";
+import { Heart } from "lucide-react";
+import ShadowingRecordCard from "@/app/components/ShadowingRecordCard";
+import FavoriteCard from "@/app/components/FavoriteCard";
 
 export default function MyListPage() {
   const { data: session, status } = useSession(); // 🔥 使用 NextAuth session
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [shadowingRecords, setShadowingRecords] = useState([]);
+  const [recordLoading, setRecordLoading] = useState(true);
 
   useEffect(() => {
     if (session?.user) {
@@ -51,6 +55,24 @@ export default function MyListPage() {
     } catch (err) {
       alert("fail to remove");
     }
+  };
+
+  useEffect(() => {
+    if (session?.user) {
+      fetchShadowingRecords();
+    }
+  }, [session]);
+
+  const fetchShadowingRecords = async () => {
+    setRecordLoading(true);
+    try {
+      const res = await fetch("/api/shadowing-records");
+      if (res.ok) {
+        const data = await res.json();
+        setShadowingRecords(data.records || []);
+      }
+    } catch {}
+    setRecordLoading(false);
   };
 
   if (status === "loading" || loading) {
@@ -106,7 +128,9 @@ export default function MyListPage() {
         <div className="max-w-6xl mx-auto">
           {/* 頁面標題 */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">My Favorites</h1>
+            <h2 className="text-2xl text-[#FFD6D6] font-bold mb-2">
+              My Favorites
+            </h2>
             <p className="text-gray-400">Total {favorites.length} lists</p>
           </div>
 
@@ -137,66 +161,21 @@ export default function MyListPage() {
             </div>
           )}
         </div>
-      </div>
-    </div>
-  );
-}
-
-// FavoriteCard 組件保持不變
-function FavoriteCard({ favorite, onRemove }) {
-  const episode = favorite.episodeId;
-  const addedDate = new Date(favorite.addedAt).toLocaleDateString("zh-TW");
-
-  return (
-    <div className="bg-gray-900 rounded-lg overflow-hidden hover:bg-gray-800 transition-colors">
-      {/* 劇集信息 */}
-      <div className="p-4">
-        <div className="flex justify-between items-start mb-3">
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold mb-1 line-clamp-1 overflow-hidden text-ellipsis">
-              {episode.title}
-            </h3>
-            <p className="text-sm text-gray-400">
-              Episode {episode.episodeNumber}
-            </p>
-          </div>
-
-          {/* 移除收藏按鈕 */}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              onRemove(episode._id);
-            }}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors ml-2"
-            title="移除收藏"
-          >
-            <Heart size={18} fill="red" className="text-red-500" />
-          </button>
-        </div>
-
-        {/* 收藏時間 */}
-        <div className="flex items-center text-xs text-gray-500 mb-4">
-          <Calendar size={14} className="mr-1" />
-          Added on {addedDate}
-        </div>
-
-        {/* 動作按鈕 */}
-        <div className="flex gap-2">
-          <Link
-            href={`/series/breaking-bad/1/${episode.episodeNumber}`}
-            className="flex-1 bg-purple-500 hover:bg-purple-700 flex items-center justify-center gap-2 py-2 rounded-lg transition-colors"
-          >
-            <Play size={16} />
-            <span className="text-sm">Watch</span>
-          </Link>
-
-          <Link
-            href={`/series/breaking-bad/1`}
-            className="flex-1 bg-gray-700 hover:bg-gray-600 flex items-center justify-center gap-2 py-2 rounded-lg transition-colors"
-          >
-            <Clock size={16} />
-            <span className="text-sm">More</span>
-          </Link>
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold mb-4 text-[#FFD6D6]">
+            My Shadowing Records
+          </h2>
+          {recordLoading ? (
+            <div className="text-gray-400">Loading shadowing records...</div>
+          ) : shadowingRecords.length === 0 ? (
+            <div className="text-gray-500">No shadowing records yet.</div>
+          ) : (
+            <div>
+              {shadowingRecords.map((rec) => (
+                <ShadowingRecordCard key={rec._id} record={rec} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

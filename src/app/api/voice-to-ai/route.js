@@ -5,6 +5,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { OpenAI } from "openai";
+import VoiceShadowingRecord from "@/models/VoiceShadowingRecord";
+import dbConnect from "@/lib/dbConnect";
 
 // export const config = {
 //   api: {
@@ -128,6 +130,32 @@ export async function POST(req) {
       ],
     });
     const aiText = completion.choices[0].message.content;
+
+    let aiResultObj;
+    try {
+      aiResultObj = JSON.parse(aiText);
+    } catch (e) {
+      const match =
+        aiText.match(/```json\s*([\s\S]*?)```/i) || aiText.match(/\{[\s\S]*\}/);
+      if (match) {
+        try {
+          aiResultObj = JSON.parse(match[1] || match[0]);
+        } catch (err) {
+          aiResultObj = { error: "AI 回傳格式錯誤", raw: aiText };
+        }
+      } else {
+        aiResultObj = { error: "AI 回傳不是 JSON", raw: aiText };
+      }
+    }
+
+    await dbConnect();
+    await VoiceShadowingRecord.create({
+      userId, // 從 session.user.id 來
+      audioUrl: `gs://${bucketName}/${userVoicePath}`, // 剛剛存到 GCP 的路徑
+      transcript, // Whisper 轉出來的
+      targetText, // 前端傳過來的 subtitle
+      aiResult: aiResultObj, // JSON.parse(aiText)
+    });
 
     // 回傳給前端
     return NextResponse.json({

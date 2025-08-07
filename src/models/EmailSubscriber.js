@@ -64,7 +64,7 @@ const EmailSubscriberSchema = new mongoose.Schema(
 );
 
 // 添加索引以提高查询效率
-EmailSubscriberSchema.index({ email: 1 });
+// EmailSubscriberSchema.index({ email: 1 });
 EmailSubscriberSchema.index({ status: 1 });
 EmailSubscriberSchema.index({ createdAt: -1 });
 

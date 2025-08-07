@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import VoicePostForm from "./VoicePostForm";
-import { CircleX } from "lucide-react";
+import { Speech, X } from "lucide-react";
 
 // The EpisodePlayer component handles all client-side interactivity.
 export default function EpisodePlayer({ episodeData }) {
@@ -189,10 +189,10 @@ export default function EpisodePlayer({ episodeData }) {
             <h3 className="text-[#FFFFFF] text-xl font-bold">Subtitles</h3>
           </div>
           <button
-            className="px-4 py-2 bg-[#E8B5B8] text-xl font-semibold text-[#FFFFFF] rounded-lg hover:bg-[#4a2f31] transition-colors duration-200"
+            className="flex items-center gap-2 px-4 py-2 bg-[#E8B5B8] text-lg font-semibold text-[#FFFFFF] rounded-lg hover:bg-[#4a2f31] transition-colors duration-200"
             onClick={() => setShowVoiceForm(true)}
           >
-            Shadowing
+            <Speech size={24} /> Shadowing
           </button>
         </div>
 
@@ -203,7 +203,7 @@ export default function EpisodePlayer({ episodeData }) {
                 onClick={() => setShowVoiceForm(false)}
                 className="absolute top-3 right-3 text-[#E8B5B8] hover:text-white text-2xl"
               >
-                <CircleX size={24} />
+                <X size={24} />
               </button>
               <VoicePostForm
                 targetText={subtitleText}
